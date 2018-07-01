@@ -70,7 +70,7 @@ Sub showFormMenu()
     'Load formMenu
     'vbModeless param is required for .Show, as we want to allow changes to
     'worksheet, while user form is open.
-    formMenu.Show vbModeless
+    Menu_Form.Show vbModeless
 End Sub
 
 '******************************************************************************
@@ -103,7 +103,7 @@ Public Sub formMenuInitialize()
     lngLastRow = findEmptyCell(objCurrentSheet) - 1
     prepareGlandsArray objCurrentSheet, lngLastRow
 
-    With formMenu
+    With Menu_Form
         .comboBoxCableTypes.Enabled = False
         .comboBoxCableCores.Enabled = False
         .comboBoxCableCross.Enabled = False
