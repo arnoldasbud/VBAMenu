@@ -1,19 +1,21 @@
 Attribute VB_Name = "Menu_Main"
 Option Explicit
 
-'**************************************************************************************************
+'******************************************************************************
 '* Menu_Main
-'* Purpose: Setup global variables and constants for entire project. Prepare main procedure showing
+'* Purpose: Setup global variables and constants for entire project. Prepare
+'* main procedure showing
 '* user form.
 '*
 '* Bugs: -
 '*
 '* To do: -
 '*
-'**************************************************************************************************
+'******************************************************************************
 
 'Constants
-Public Const FILEPATH As String = "C:\Users\Arnoldas\AppData\Roaming\Microsoft\Excel\XLSTART\Failai\"
+Public Const FILEPATH As String = _
+    "C:\Users\Arnoldas\AppData\Roaming\Microsoft\Excel\XLSTART\Failai\"
 
 Public Const GLANDSFILE As String = FILEPATH & "Sandarikliai.xlsx"
 
@@ -40,8 +42,8 @@ Public Enum CellGland
 End Enum
 
 Public Enum CellResult
-    CableDescription = 1    'cable description
-    GlandDescription        'gland description
+    CableDescription = 1
+    GlandDescription
     Manufacturer
     Code
     Quantity
@@ -58,25 +60,25 @@ Public glngListBoxItems As Long
 'Variable for custom events blocking
 Public gblnSkipEvents As Boolean
 
-'**************************************************************************************************
+'******************************************************************************
 '* Procedure which shows user form
 '*
 '* Params: -
 '* Return: -
-'**************************************************************************************************
+'******************************************************************************
 Sub showFormMenu()
     'Load formMenu
-    'vbModeless param is required for .Show, as we want to allow changes to worksheet, while user
-    'form is open.
+    'vbModeless param is required for .Show, as we want to allow changes to
+    'worksheet, while user form is open.
     formMenu.Show vbModeless
 End Sub
 
-'**************************************************************************************************
+'******************************************************************************
 '* Procedure which initializes user form and collects data from other workbooks
 '*
 '* Params: -
 '* Return: -
-'**************************************************************************************************
+'******************************************************************************
 Public Sub formMenuInitialize()
     'On Error GoTo HandleErrors
     
@@ -113,15 +115,17 @@ HandleErrors:
 
 End Sub
 
-'**************************************************************************************************
-'* Procedure which collects data from given sheet and stores required values into array
+'******************************************************************************
+'* Procedure which collects data from given sheet and stores required values
+'* into array
 '*
 '* Params:
 '*      shtSheet    - cables worksheet object
 '*      lngRows     - number of rows, filled with data
 '* Return: -
-'**************************************************************************************************
-Private Sub prepareCableArray(ByVal shtSheet As Worksheet, ByVal lngRows As Long)
+'******************************************************************************
+Private Sub prepareCableArray(ByVal shtSheet As Worksheet, _
+        ByVal lngRows As Long)
 
     Dim i As Long
     
@@ -130,25 +134,31 @@ Private Sub prepareCableArray(ByVal shtSheet As Worksheet, ByVal lngRows As Long
     With shtSheet
         For i = 2 To lngRows
         
-            gstrArrCables(i - 1, CellCable.Material) = .Cells(i, CellCable.Material)
-            gstrArrCables(i - 1, CellCable.Cable) = .Cells(i, CellCable.Cable)
-            gstrArrCables(i - 1, CellCable.Cores) = .Cells(i, CellCable.Cores)
-            gstrArrCables(i - 1, CellCable.Cross) = .Cells(i, CellCable.Cross)
-            gstrArrCables(i - 1, CellCable.Diameter) = .Cells(i, CellCable.Diameter)
+            gstrArrCables(i - 1, CellCable.Material) = _
+                .Cells(i, CellCable.Material)
+            gstrArrCables(i - 1, CellCable.Cable) = _
+                .Cells(i, CellCable.Cable)
+            gstrArrCables(i - 1, CellCable.Cores) = _
+                .Cells(i, CellCable.Cores)
+            gstrArrCables(i - 1, CellCable.Cross) = _
+                .Cells(i, CellCable.Cross)
+            gstrArrCables(i - 1, CellCable.Diameter) = _
+                .Cells(i, CellCable.Diameter)
             
         Next i
     
     End With
 End Sub
 
-'**************************************************************************************************
-'* Procedure which collects data from given sheet and stores required values into array
+'******************************************************************************
+'* Procedure which collects data from given sheet and stores required values
+'* into array
 '*
 '* Params:
 '*      shtSheet    - cables worksheet object
 '*      lngRows     - number of rows, filled with data
 '* Return: -
-'**************************************************************************************************
+'******************************************************************************
 Private Sub prepareGlandsArray(ByVal shtSheet As Object, ByVal lngRows As Long)
 
     Dim i As Long
@@ -158,12 +168,18 @@ Private Sub prepareGlandsArray(ByVal shtSheet As Object, ByVal lngRows As Long)
     With shtSheet
         For i = 2 To lngRows
             
-            gstrArrGlands(i - 1, CellGland.Gland) = .Cells(i, CellGland.Gland)
-            gstrArrGlands(i - 1, CellGland.TypeName) = .Cells(i, CellGland.TypeName)
-            gstrArrGlands(i - 1, CellGland.Code) = .Cells(i, CellGland.Code)
-            gstrArrGlands(i - 1, CellGland.Manufacturer) = .Cells(i, CellGland.Manufacturer)
-            gstrArrGlands(i - 1, CellGland.MinDiameter) = .Cells(i, CellGland.MinDiameter)
-            gstrArrGlands(i - 1, CellGland.MaxDiameter) = .Cells(i, CellGland.MaxDiameter)
+            gstrArrGlands(i - 1, CellGland.Gland) = _
+                .Cells(i, CellGland.Gland)
+            gstrArrGlands(i - 1, CellGland.TypeName) = _
+                .Cells(i, CellGland.TypeName)
+            gstrArrGlands(i - 1, CellGland.Code) = _
+                .Cells(i, CellGland.Code)
+            gstrArrGlands(i - 1, CellGland.Manufacturer) = _
+                .Cells(i, CellGland.Manufacturer)
+            gstrArrGlands(i - 1, CellGland.MinDiameter) = _
+                .Cells(i, CellGland.MinDiameter)
+            gstrArrGlands(i - 1, CellGland.MaxDiameter) = _
+                .Cells(i, CellGland.MaxDiameter)
             
         Next i
         

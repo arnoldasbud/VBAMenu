@@ -1,7 +1,7 @@
 Attribute VB_Name = "Menu_Misc"
 Option Explicit
 
-'**************************************************************************************************
+'******************************************************************************
 '* Menu_Misc
 '* Purpose: Contains functions that are used over the project
 '*
@@ -9,9 +9,9 @@ Option Explicit
 '*
 '* To do: -
 '*
-'**************************************************************************************************
+'******************************************************************************
 
-'**************************************************************************************************
+'******************************************************************************
 '* Function which continues to looking for a empty cell in given column
 '*
 '* Params:
@@ -19,8 +19,9 @@ Option Explicit
 '*      lngCol      - column in which we search for empty cell
 '* Return:
 '*      Last non empty cell in given column, as row number
-'**************************************************************************************************
-Public Function findEmptyCell(ByVal shtSheet As Worksheet, Optional ByVal lngCol As Long = 1) As Long
+'******************************************************************************
+Public Function findEmptyCell(ByVal shtSheet As Worksheet, _
+        Optional ByVal lngCol As Long = 1) As Long
 
     Dim lngRow As Long
     lngRow = 1
@@ -33,12 +34,12 @@ Public Function findEmptyCell(ByVal shtSheet As Worksheet, Optional ByVal lngCol
 
 End Function
 
-'**************************************************************************************************
+'******************************************************************************
 '* Procedure which exports all current project modules to project folder
 '*
 '* Params: -
 '* Return: -
-'**************************************************************************************************
+'******************************************************************************
 Public Sub exportModules()
 
     Const PROJECT_PATH As String = "C:\Users\Arnoldas\Projects\VBA\Menu\"
