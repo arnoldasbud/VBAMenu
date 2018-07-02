@@ -46,7 +46,8 @@ Public Sub prepareCableTypesBox(ByVal cond As String)
                 .comboBoxCableTypes = gstrArrCables(i, CellCable.Cable)
                 
                 If Not .comboBoxCableTypes.MatchFound Then
-                    .comboBoxCableTypes.AddItem gstrArrCables(i, CellCable.Cable)
+                    .comboBoxCableTypes.AddItem _
+                        gstrArrCables(i, CellCable.Cable)
                 End If
             End If
         Next i
@@ -98,11 +99,14 @@ Public Sub prepareCableCoresBox()
         arrSize = UBound(gstrArrCables)
         
         For i = 1 To arrSize
-            If gstrArrCables(i, CellCable.Material) = conductor And gstrArrCables(i, CellCable.Cable) = .comboBoxCableTypes Then
+            If gstrArrCables(i, CellCable.Material) = conductor And _
+                gstrArrCables(i, CellCable.Cable) = .comboBoxCableTypes Then
+                
                 .comboBoxCableCores = gstrArrCables(i, CellCable.Cores)
                 
                 If Not .comboBoxCableCores.MatchFound Then
-                    .comboBoxCableCores.AddItem gstrArrCables(i, CellCable.Cores)
+                    .comboBoxCableCores.AddItem _
+                        gstrArrCables(i, CellCable.Cores)
                 End If
             End If
         Next i
@@ -149,12 +153,16 @@ Public Sub prepareCableCrossBox()
         arrSize = UBound(gstrArrCables)
         
         For i = 1 To arrSize
-            If gstrArrCables(i, CellCable.Material) = conductor And gstrArrCables(i, CellCable.Cable) = .comboBoxCableTypes _
-                And gstrArrCables(i, CellCable.Cores) = .comboBoxCableCores Then
+            If gstrArrCables(i, CellCable.Material) = conductor _
+                And gstrArrCables(i, CellCable.Cable) = .comboBoxCableTypes _
+                And gstrArrCables(i, CellCable.Cores) = .comboBoxCableCores _
+                Then
+                
                 .comboBoxCableCross = gstrArrCables(i, CellCable.Cross)
                 
                 If Not .comboBoxCableCross.MatchFound Then
-                    .comboBoxCableCross.AddItem gstrArrCables(i, CellCable.Cross)
+                    .comboBoxCableCross.AddItem _
+                        gstrArrCables(i, CellCable.Cross)
                 End If
             End If
         Next i
@@ -216,14 +224,18 @@ Public Sub prepareCableListBox()
         Dim cableFound As Boolean
         cableFound = False
         For i = 1 To arrElements
-            If cableType = gstrArrCables(i, CellCable.Cable) And cableCores = gstrArrCables(i, CellCable.Cores) _
+            If cableType = gstrArrCables(i, CellCable.Cable) _
+                And cableCores = gstrArrCables(i, CellCable.Cores) _
                 And cableCross = gstrArrCables(i, CellCable.Cross) Then
             
                 'kabelis rastas, ytraukiam nauja elementa y kabeliu sarasa
                 .listBoxCables.AddItem
-                .listBoxCables.List(glngListBoxItems, 0) = "Kabelis " + cableType + " " + cableCores + "x" + cableCross
-                .listBoxCables.List(glngListBoxItems, 1) = gstrArrCables(i, CellCable.Diameter)
-                .listBoxCables.List(glngListBoxItems, 2) = cablesQuant
+                .listBoxCables.List(glngListBoxItems, 0) = _
+                    "Kabelis " + cableType + " " + cableCores + "x" + cableCross
+                .listBoxCables.List(glngListBoxItems, 1) = _
+                    gstrArrCables(i, CellCable.Diameter)
+                .listBoxCables.List(glngListBoxItems, 2) = _
+                    cablesQuant
                 cableFound = True
                 
                 glngListBoxItems = glngListBoxItems + 1
@@ -278,8 +290,12 @@ Public Sub prepareResultArray()
             'paieskom sandarikliu masyve tinkamo
             For j = 1 To UBound(gstrArrGlands)
                 
-                If gstrArrGlands(j, CellGland.MinDiameter) = vbNullString Or gstrArrGlands(j, CellGland.MaxDiameter) = vbNullString Then
+                If gstrArrGlands(j, CellGland.MinDiameter) = vbNullString _
+                    Or gstrArrGlands(j, CellGland.MaxDiameter) = vbNullString _
+                    Then
+                    
                     Exit For
+                
                 End If
                 
                 cableMinD = CDbl(gstrArrGlands(j, CellGland.MinDiameter))
@@ -288,27 +304,36 @@ Public Sub prepareResultArray()
                 If cableDiam < cableMaxD And cableDiam > cableMinD Then
                     curGlands = curGlands + 1
                     
-                    'jei tinkantys sandarikliai nebetelpa y masyva, padidinam jy
+                    'jei tinkantys sandarikliai nebetelpa y masyva, padidinam
+                    'jy
                     If curGlands > maxGlands Then
                         maxGlands = maxGlands + 1
                         
-                        ReDim Preserve arrayResult(1 To listItems, 1 To maxGlands, 1 To 5)
+                        ReDim Preserve arrayResult(1 To listItems, _
+                            1 To maxGlands, 1 To 5)
                     End If
                     
                     'issaugojam sandarikly y masyva
-                    arrayResult(i + 1, curGlands, CellResult.CableDescription) = .listBoxCables.List(i, 0) + ", " + CStr(cableDiam) + "mm"
-                    arrayResult(i + 1, curGlands, CellResult.GlandDescription) = gstrArrGlands(j, CellGland.TypeName) + _
-                        " (" + CStr(cableMinD) + "mm-" + CStr(cableMaxD) + "mm)"
-                    arrayResult(i + 1, curGlands, CellResult.Manufacturer) = gstrArrGlands(j, CellGland.Manufacturer)
-                    arrayResult(i + 1, curGlands, CellResult.Code) = gstrArrGlands(j, CellGland.Code)
-                    arrayResult(i + 1, curGlands, CellResult.Quantity) = .listBoxCables.List(i, 2)
+                    arrayResult(i + 1, curGlands, CellResult.CableDescription) = _
+                        .listBoxCables.List(i, 0) + ", " + CStr(cableDiam) + "mm"
+                    arrayResult(i + 1, curGlands, CellResult.GlandDescription) = _
+                        gstrArrGlands(j, CellGland.TypeName) + " (" + _
+                        CStr(cableMinD) + "mm-" + CStr(cableMaxD) + "mm)"
+                    arrayResult(i + 1, curGlands, CellResult.Manufacturer) = _
+                        gstrArrGlands(j, CellGland.Manufacturer)
+                    arrayResult(i + 1, curGlands, CellResult.Code) = _
+                        gstrArrGlands(j, CellGland.Code)
+                    arrayResult(i + 1, curGlands, CellResult.Quantity) = _
+                        .listBoxCables.List(i, 2)
                     
                 End If
             Next j
         
-            ' jei neradom ytraukiam y masyva ir prirasom, kad reikiamas sandariklis nerastas.c
+            'jei neradom ytraukiam y masyva ir prirasom, kad reikiamas
+            'sandariklis nerastas.c
             If curGlands < 1 Then
-                arrayResult(i + 1, 1, CellResult.CableDescription) = .listBoxCables.List(i, 0) + ", " + CStr(cableDiam) + "mm"
+                arrayResult(i + 1, 1, CellResult.CableDescription) = _
+                    .listBoxCables.List(i, 0) + ", " + CStr(cableDiam) + "mm"
                 arrayResult(i + 1, 1, CellResult.GlandDescription) = "Nerastas"
             End If
             

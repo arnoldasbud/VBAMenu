@@ -12,12 +12,12 @@ Option Explicit
 '*
 '******************************************************************************
 
-'**************************************************************************************************
+'******************************************************************************
 '* Procedure that removes selected item from listbox
 '*
 '* Params: -
 '* Return: -
-'**************************************************************************************************
+'******************************************************************************
 Public Sub listBoxRemoveCable()
     Dim selectedRow As Long
     
@@ -34,13 +34,13 @@ Public Sub listBoxRemoveCable()
     glngListBoxItems = glngListBoxItems - 1
 End Sub
 
-'**************************************************************************************************
+'******************************************************************************
 '* Procedure that creates new workbook with info from array
 '*
 '* Params:
 '*      arr()   - array of found suitable glands as string
 '* Return: -
-'**************************************************************************************************
+'******************************************************************************
 Public Sub showGlandsResult(arr() As String)
     On Error GoTo HandleErrors
     
@@ -67,12 +67,16 @@ Public Sub showGlandsResult(arr() As String)
         .Cells(1, CellResult.Manufacturer) = "Gamintojas"
         .Cells(1, CellResult.Code) = "Kodas"
         .Cells(1, CellResult.Quantity) = "Kiekis"
-        'reikia ysitikinti, kad RES_CALL_DESC reiksme yra maziausia, o CellResult.Quantity - didziausia,
-        'antraip kodas normaliai neveiks.
-        With .Range(.Cells(1, CellResult.CableDescription), .Cells(1, CellResult.Quantity))
+        
+        'reikia ysitikinti, kad RES_CALL_DESC reiksme yra maziausia,
+        'o CellResult.Quantity - didziausia, antraip kodas normaliai neveiks.
+        With .Range(.Cells(1, CellResult.CableDescription), _
+                .Cells(1, CellResult.Quantity))
+            
             .Font.Bold = True
             .HorizontalAlignment = xlCenter
             .VerticalAlignment = xlCenter
+        
         End With
         
         For i = 1 To UBound(arr)
@@ -81,30 +85,45 @@ Public Sub showGlandsResult(arr() As String)
             
             For j = 1 To UBound(arr, 2)
                 If arr(i, j, CellResult.CableDescription) <> vbNullString Then
-                    .Cells(curRow, CellResult.CableDescription) = arr(i, j, CellResult.CableDescription)
-                    .Cells(curRow, CellResult.GlandDescription) = arr(i, j, CellResult.GlandDescription)
-                    .Cells(curRow, CellResult.Manufacturer) = arr(i, j, CellResult.Manufacturer)
-                    .Cells(curRow, CellResult.Code) = arr(i, j, CellResult.Code)
-                    .Cells(curRow, CellResult.Quantity) = arr(i, j, CellResult.Quantity)
+                
+                    .Cells(curRow, CellResult.CableDescription) = _
+                        arr(i, j, CellResult.CableDescription)
+                    .Cells(curRow, CellResult.GlandDescription) = _
+                        arr(i, j, CellResult.GlandDescription)
+                    .Cells(curRow, CellResult.Manufacturer) = _
+                        arr(i, j, CellResult.Manufacturer)
+                    .Cells(curRow, CellResult.Code) = _
+                        arr(i, j, CellResult.Code)
+                    .Cells(curRow, CellResult.Quantity) = _
+                        arr(i, j, CellResult.Quantity)
                     
                     curRow = curRow + 1
                 End If
             Next j
             
             'sujungiam eilutes, kuriose pasikartoja kabelio pavadinimas
-            .Range(.Cells(startRow, CellResult.CableDescription), .Cells(curRow - 1, CellResult.CableDescription)).Merge
+            .Range(.Cells(startRow, CellResult.CableDescription), _
+                .Cells(curRow - 1, CellResult.CableDescription)).Merge
         Next i
             
         'sulygiuojam ir sutalpinam viska y stulpelius
-        With .Range(.Cells(2, CellResult.CableDescription), .Cells(curRow - 1, CellResult.CableDescription))
+        With .Range(.Cells(2, CellResult.CableDescription), _
+                .Cells(curRow - 1, CellResult.CableDescription))
+            
             .HorizontalAlignment = xlLeft
             .VerticalAlignment = xlCenter
+        
         End With
-        With .Range(.Cells(2, CellResult.GlandDescription), .Cells(curRow - 1, CellResult.Quantity))
+        With .Range(.Cells(2, CellResult.GlandDescription), _
+                .Cells(curRow - 1, CellResult.Quantity))
+            
             .HorizontalAlignment = xlCenter
             .VerticalAlignment = xlCenter
+        
         End With
-        .Range(.Cells(1, CellResult.CableDescription), .Cells(curRow - 1, CellResult.Quantity)).Columns.EntireColumn.AutoFit
+        .Range(.Cells(1, CellResult.CableDescription), _
+            .Cells(curRow - 1, CellResult.Quantity)) _
+            .Columns.EntireColumn.AutoFit
         
     End With
     
