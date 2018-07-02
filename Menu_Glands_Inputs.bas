@@ -315,10 +315,10 @@ Public Sub prepareResultArray()
                     
                     'issaugojam sandarikly y masyva
                     arrayResult(i + 1, curGlands, CellResult.CableDescription) = _
-                        .listBoxCables.List(i, 0) & ", " & CStr(cableDiam) & "mm"
+                        .listBoxCables.List(i, 0) & ", " & cableDiam & "mm"
                     arrayResult(i + 1, curGlands, CellResult.GlandDescription) = _
                         gstrArrGlands(j, CellGland.TypeName) & " (" & _
-                        CStr(cableMinD) & "mm-" & CStr(cableMaxD) & "mm)"
+                        cableMinD & "mm-" & cableMaxD & "mm)"
                     arrayResult(i + 1, curGlands, CellResult.Manufacturer) = _
                         gstrArrGlands(j, CellGland.Manufacturer)
                     arrayResult(i + 1, curGlands, CellResult.Code) = _
@@ -333,7 +333,7 @@ Public Sub prepareResultArray()
             'sandariklis nerastas.c
             If curGlands < 1 Then
                 arrayResult(i + 1, 1, CellResult.CableDescription) = _
-                    .listBoxCables.List(i, 0) & ", " & CStr(cableDiam) & "mm"
+                    .listBoxCables.List(i, 0) & ", " & cableDiam & "mm"
                 arrayResult(i + 1, 1, CellResult.GlandDescription) = "Nerastas"
             End If
             
