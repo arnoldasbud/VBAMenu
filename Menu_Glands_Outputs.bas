@@ -19,14 +19,14 @@ Option Explicit
 '* Return: -
 '******************************************************************************
 Public Sub listBoxRemoveCable()
-    Dim selectedRow As Long
+    Dim lngRow As Long
     
     With Menu_Form
-        selectedRow = .listBoxCables.ListIndex
+        lngRow = .listBoxCables.ListIndex
         
-        If selectedRow < 0 Then Exit Sub
+        If lngRow < 0 Then Exit Sub
         
-        .listBoxCables.RemoveItem (selectedRow)
+        .listBoxCables.RemoveItem (lngRow)
     
     End With
     
@@ -40,24 +40,24 @@ End Sub
 '*      arr()   - array of found suitable glands as string
 '* Return: -
 '******************************************************************************
-Public Sub showGlandsResult(arr() As String)
+Public Sub showGlandsResult(strArray() As String)
     On Error GoTo HandleErrors
     
     Application.DisplayAlerts = False
     
-    Dim arrLength As Long
-    Dim newWBook As Workbook
+    Dim lngLength As Long
+    Dim wkbBook As Workbook
     Dim i As Long
     Dim j As Long
-    Dim startRow As Long
-    Dim curRow As Long
+    Dim lngStartRow As Long
+    Dim lngRow As Long
     
-    arrLength = UBound(arr)
-    curRow = 2
+    lngLength = UBound(strArray)
+    lngRow = 2
     
-    Set newWBook = Workbooks.Add(xlWBATWorksheet)
+    Set wkbBook = Workbooks.Add(xlWBATWorksheet)
     
-    With newWBook.Worksheets(1)
+    With wkbBook.Worksheets(1)
         .Name = "Sandarikliai"
         
         .Cells(1, CellResult.CableDescription) = "Kabelis"
@@ -77,53 +77,53 @@ Public Sub showGlandsResult(arr() As String)
         
         End With
         
-        For i = 1 To UBound(arr)
-            startRow = curRow
+        For i = 1 To UBound(strArray)
+            lngStartRow = lngRow
             
-            For j = 1 To UBound(arr, 2)
-                If arr(i, j, CellResult.CableDescription) <> vbNullString Then
+            For j = 1 To UBound(strArray, 2)
+                If strArray(i, j, CellResult.CableDescription) <> vbNullString Then
                 
-                    .Cells(curRow, CellResult.CableDescription) = _
-                        arr(i, j, CellResult.CableDescription)
-                    .Cells(curRow, CellResult.GlandDescription) = _
-                        arr(i, j, CellResult.GlandDescription)
-                    .Cells(curRow, CellResult.Manufacturer) = _
-                        arr(i, j, CellResult.Manufacturer)
-                    .Cells(curRow, CellResult.Code) = _
-                        arr(i, j, CellResult.Code)
-                    .Cells(curRow, CellResult.Quantity) = _
-                        arr(i, j, CellResult.Quantity)
+                    .Cells(lngRow, CellResult.CableDescription) = _
+                        strArray(i, j, CellResult.CableDescription)
+                    .Cells(lngRow, CellResult.GlandDescription) = _
+                        strArray(i, j, CellResult.GlandDescription)
+                    .Cells(lngRow, CellResult.Manufacturer) = _
+                        strArray(i, j, CellResult.Manufacturer)
+                    .Cells(lngRow, CellResult.Code) = _
+                        strArray(i, j, CellResult.Code)
+                    .Cells(lngRow, CellResult.Quantity) = _
+                        strArray(i, j, CellResult.Quantity)
                     
-                    curRow = curRow + 1
+                    lngRow = lngRow + 1
                 End If
             Next j
             
             'merge description cells if there are multiple glands found
-            .Range(.Cells(startRow, CellResult.CableDescription), _
-                .Cells(curRow - 1, CellResult.CableDescription)).Merge
+            .Range(.Cells(lngStartRow, CellResult.CableDescription), _
+                .Cells(lngRow - 1, CellResult.CableDescription)).Merge
         Next i
             
         With .Range(.Cells(2, CellResult.CableDescription), _
-                .Cells(curRow - 1, CellResult.CableDescription))
+                .Cells(lngRow - 1, CellResult.CableDescription))
             
             .HorizontalAlignment = xlLeft
             .VerticalAlignment = xlCenter
         
         End With
         With .Range(.Cells(2, CellResult.GlandDescription), _
-                .Cells(curRow - 1, CellResult.Quantity))
+                .Cells(lngRow - 1, CellResult.Quantity))
             
             .HorizontalAlignment = xlCenter
             .VerticalAlignment = xlCenter
         
         End With
         .Range(.Cells(1, CellResult.CableDescription), _
-            .Cells(curRow - 1, CellResult.Quantity)) _
+            .Cells(lngRow - 1, CellResult.Quantity)) _
             .Columns.EntireColumn.AutoFit
         
     End With
     
-    newWBook.Activate
+    wkbBook.Activate
 HandleErrors:
     Application.DisplayAlerts = True
 End Sub

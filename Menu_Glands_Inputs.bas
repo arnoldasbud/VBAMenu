@@ -20,7 +20,7 @@ Option Explicit
 '*      cond    - conductor material as String (CONDUCTOR_CU or CONDUCTOR_AL)
 '* Return: -
 '******************************************************************************
-Public Sub prepareCableTypesBox(ByVal cond As String)
+Public Sub prepareCableTypesBox(ByVal strConductor As String)
     On Error GoTo HandleErrors
 
     Application.ScreenUpdating = False
@@ -36,13 +36,13 @@ Public Sub prepareCableTypesBox(ByVal cond As String)
         .comboBoxCableCross.Enabled = False
     
         Dim i As Long
-        Dim arrSize As Long
+        Dim lngSize As Long
         
-        arrSize = UBound(gstrArrCables)
+        lngSize = UBound(gstrArrCables)
         
         'fill combobox with items
-        For i = 1 To arrSize
-            If gstrArrCables(i, CellCable.Material) = cond Then
+        For i = 1 To lngSize
+            If gstrArrCables(i, CellCable.Material) = strConductor Then
                 .comboBoxCableTypes = gstrArrCables(i, CellCable.Cable)
                 
                 If Not .comboBoxCableTypes.MatchFound Then
@@ -84,19 +84,19 @@ Public Sub prepareCableCoresBox()
         .comboBoxCableCross.Enabled = False
         
         Dim i As Long
-        Dim arrSize As Long
-        Dim conductor As String
+        Dim lngSize As Long
+        Dim strConductor As String
         
         If .optionCableCu Then
-            conductor = CONDUCTOR_CU
+            strConductor = CONDUCTOR_CU
         Else
-            conductor = CONDUCTOR_AL
+            strConductor = CONDUCTOR_AL
         End If
         
-        arrSize = UBound(gstrArrCables)
+        lngSize = UBound(gstrArrCables)
         
-        For i = 1 To arrSize
-            If gstrArrCables(i, CellCable.Material) = conductor And _
+        For i = 1 To lngSize
+            If gstrArrCables(i, CellCable.Material) = strConductor And _
                 gstrArrCables(i, CellCable.Cable) = .comboBoxCableTypes Then
                 
                 .comboBoxCableCores = gstrArrCables(i, CellCable.Cores)
@@ -136,19 +136,19 @@ Public Sub prepareCableCrossBox()
         .comboBoxCableCross.Clear
         
         Dim i As Long
-        Dim arrSize As Long
-        Dim conductor As String
+        Dim lngSize As Long
+        Dim strConductor As String
         
         If .optionCableCu Then
-            conductor = CONDUCTOR_CU
+            strConductor = CONDUCTOR_CU
         Else
-            conductor = CONDUCTOR_AL
+            strConductor = CONDUCTOR_AL
         End If
         
-        arrSize = UBound(gstrArrCables)
+        lngSize = UBound(gstrArrCables)
         
-        For i = 1 To arrSize
-            If gstrArrCables(i, CellCable.Material) = conductor _
+        For i = 1 To lngSize
+            If gstrArrCables(i, CellCable.Material) = strConductor _
                 And gstrArrCables(i, CellCable.Cable) = .comboBoxCableTypes _
                 And gstrArrCables(i, CellCable.Cores) = .comboBoxCableCores _
                 Then
@@ -195,47 +195,47 @@ Public Sub prepareCableListBox()
             Exit Sub
         End If
         
-        Dim cableType As String
-        Dim cableCores As String
-        Dim cableCross As String
-        Dim cablesQuant As Long
+        Dim strType As String
+        Dim strCores As String
+        Dim strCross As String
+        Dim lngQuant As Long
         
-        cableType = .comboBoxCableTypes
-        cableCores = .comboBoxCableCores
-        cableCross = .comboBoxCableCross
-        cablesQuant = .textBoxQuantity
+        strType = .comboBoxCableTypes
+        strCores = .comboBoxCableCores
+        strCross = .comboBoxCableCross
+        lngQuant = .textBoxQuantity
         
-        If cablesQuant < 1 Then
+        If lngQuant < 1 Then
             MsgBox "Neteisingas kiekis"
             Exit Sub
         End If
         
-        Dim arrElements As Long
-        arrElements = UBound(gstrArrCables)
+        Dim lngElements As Long
+        lngElements = UBound(gstrArrCables)
         
         Dim i As Long
-        Dim cableFound As Boolean
-        cableFound = False
-        For i = 1 To arrElements
-            If cableType = gstrArrCables(i, CellCable.Cable) _
-                And cableCores = gstrArrCables(i, CellCable.Cores) _
-                And cableCross = gstrArrCables(i, CellCable.Cross) Then
+        Dim blnFound As Boolean
+        blnFound = False
+        For i = 1 To lngElements
+            If strType = gstrArrCables(i, CellCable.Cable) _
+                And strCores = gstrArrCables(i, CellCable.Cores) _
+                And strCross = gstrArrCables(i, CellCable.Cross) Then
             
                 .listBoxCables.AddItem
                 .listBoxCables.List(glngListBoxItems, 0) = _
-                    "Kabelis " & cableType & " " & cableCores & "x" & cableCross
+                    "Kabelis " & strType & " " & strCores & "x" & strCross
                 .listBoxCables.List(glngListBoxItems, 1) = _
                     gstrArrCables(i, CellCable.Diameter)
                 .listBoxCables.List(glngListBoxItems, 2) = _
-                    cablesQuant
-                cableFound = True
+                    lngQuant
+                blnFound = True
                 
                 glngListBoxItems = glngListBoxItems + 1
                 Exit For
             End If
         Next i
         
-        If Not cableFound Then
+        If Not blnFound Then
             MsgBox "Toks kabelis nerastas"
         End If
     
@@ -251,31 +251,31 @@ End Sub
 '* Return: -
 '******************************************************************************
 Public Sub prepareResultArray()
-    Dim listItems As Long
+    Dim lngItems As Long
     
     With Menu_Form
-        listItems = .listBoxCables.ListCount
+        lngItems = .listBoxCables.ListCount
         
-        If listItems < 1 Then Exit Sub
+        If lngItems < 1 Then Exit Sub
         
         Dim i As Long
         Dim j As Long
-        Dim cableDiam As Double
-        Dim cableMinD As Double
-        Dim cableMaxD As Double
-        Dim curGlands As Long
-        Dim maxGlands As Long
+        Dim dblDiam As Double
+        Dim dblMinD As Double
+        Dim dblMaxD As Double
+        Dim lngGlands As Long
+        Dim lngMaxGlands As Long
         
-        maxGlands = 10
+        lngMaxGlands = 10
         
-        Dim arrayResult() As String
-        ReDim arrayResult(1 To listItems, 1 To maxGlands, 1 To 5)
+        Dim strArrResult() As String
+        ReDim strArrResult(1 To lngItems, 1 To lngMaxGlands, 1 To 5)
         'begin search for suitable glands for cable
-        For i = 0 To listItems - 1
+        For i = 0 To lngItems - 1
         
-            curGlands = 0
+            lngGlands = 0
             
-            cableDiam = CDbl(.listBoxCables.List(i, 1))
+            dblDiam = CDbl(.listBoxCables.List(i, 1))
         
             For j = 1 To UBound(gstrArrGlands)
                 
@@ -287,45 +287,45 @@ Public Sub prepareResultArray()
                 
                 End If
                 
-                cableMinD = CDbl(gstrArrGlands(j, CellGland.MinDiameter))
-                cableMaxD = CDbl(gstrArrGlands(j, CellGland.MaxDiameter))
+                dblMinD = CDbl(gstrArrGlands(j, CellGland.MinDiameter))
+                dblMaxD = CDbl(gstrArrGlands(j, CellGland.MaxDiameter))
                 
-                If cableDiam < cableMaxD And cableDiam > cableMinD Then
-                    curGlands = curGlands + 1
+                If dblDiam < dblMaxD And dblDiam > dblMinD Then
+                    lngGlands = lngGlands + 1
                     
                     'expand array if necessary
-                    If curGlands > maxGlands Then
-                        maxGlands = maxGlands + 1
+                    If lngGlands > lngMaxGlands Then
+                        lngMaxGlands = lngMaxGlands + 1
                         
-                        ReDim Preserve arrayResult(1 To listItems, _
-                            1 To maxGlands, 1 To 5)
+                        ReDim Preserve strArrResult(1 To lngItems, _
+                            1 To lngMaxGlands, 1 To 5)
                     End If
                     
                     'insert found gland to the array
-                    arrayResult(i + 1, curGlands, CellResult.CableDescription) = _
-                        .listBoxCables.List(i, 0) & ", " & cableDiam & "mm"
-                    arrayResult(i + 1, curGlands, CellResult.GlandDescription) = _
+                    strArrResult(i + 1, lngGlands, CellResult.CableDescription) = _
+                        .listBoxCables.List(i, 0) & ", " & dblDiam & "mm"
+                    strArrResult(i + 1, lngGlands, CellResult.GlandDescription) = _
                         gstrArrGlands(j, CellGland.TypeName) & " (" & _
-                        cableMinD & "mm-" & cableMaxD & "mm)"
-                    arrayResult(i + 1, curGlands, CellResult.Manufacturer) = _
+                        dblMinD & "mm-" & dblMaxD & "mm)"
+                    strArrResult(i + 1, lngGlands, CellResult.Manufacturer) = _
                         gstrArrGlands(j, CellGland.Manufacturer)
-                    arrayResult(i + 1, curGlands, CellResult.Code) = _
+                    strArrResult(i + 1, lngGlands, CellResult.Code) = _
                         gstrArrGlands(j, CellGland.Code)
-                    arrayResult(i + 1, curGlands, CellResult.Quantity) = _
+                    strArrResult(i + 1, lngGlands, CellResult.Quantity) = _
                         .listBoxCables.List(i, 2)
                     
                 End If
             Next j
         
-            If curGlands < 1 Then
-                arrayResult(i + 1, 1, CellResult.CableDescription) = _
-                    .listBoxCables.List(i, 0) & ", " & cableDiam & "mm"
-                arrayResult(i + 1, 1, CellResult.GlandDescription) = "Nerastas"
+            If lngGlands < 1 Then
+                strArrResult(i + 1, 1, CellResult.CableDescription) = _
+                    .listBoxCables.List(i, 0) & ", " & dblDiam & "mm"
+                strArrResult(i + 1, 1, CellResult.GlandDescription) = "Nerastas"
             End If
             
         Next i
     End With
     
-    showGlandsResult arrayResult
+    showGlandsResult strArrResult
     
 End Sub
