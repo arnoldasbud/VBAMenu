@@ -26,7 +26,6 @@ Public Sub listBoxRemoveCable()
         
         If selectedRow < 0 Then Exit Sub
         
-        'istrinam kabely is kolekcijos ir lenteles
         .listBoxCables.RemoveItem (selectedRow)
     
     End With
@@ -58,7 +57,6 @@ Public Sub showGlandsResult(arr() As String)
     
     Set newWBook = Workbooks.Add(xlWBATWorksheet)
     
-    'Surasom masyvo reiksmes y nauja knyga
     With newWBook.Worksheets(1)
         .Name = "Sandarikliai"
         
@@ -68,8 +66,8 @@ Public Sub showGlandsResult(arr() As String)
         .Cells(1, CellResult.Code) = "Kodas"
         .Cells(1, CellResult.Quantity) = "Kiekis"
         
-        'reikia ysitikinti, kad RES_CALL_DESC reiksme yra maziausia,
-        'o CellResult.Quantity - didziausia, antraip kodas normaliai neveiks.
+        'CableDescription must be first constant in enum and CellResult - last,
+        'otherwise code will not work.
         With .Range(.Cells(1, CellResult.CableDescription), _
                 .Cells(1, CellResult.Quantity))
             
@@ -80,7 +78,6 @@ Public Sub showGlandsResult(arr() As String)
         End With
         
         For i = 1 To UBound(arr)
-            'kad zinotume, kurias eilutes sujungti
             startRow = curRow
             
             For j = 1 To UBound(arr, 2)
@@ -101,12 +98,11 @@ Public Sub showGlandsResult(arr() As String)
                 End If
             Next j
             
-            'sujungiam eilutes, kuriose pasikartoja kabelio pavadinimas
+            'merge description cells if there are multiple glands found
             .Range(.Cells(startRow, CellResult.CableDescription), _
                 .Cells(curRow - 1, CellResult.CableDescription)).Merge
         Next i
             
-        'sulygiuojam ir sutalpinam viska y stulpelius
         With .Range(.Cells(2, CellResult.CableDescription), _
                 .Cells(curRow - 1, CellResult.CableDescription))
             

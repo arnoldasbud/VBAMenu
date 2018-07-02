@@ -26,8 +26,8 @@ Public Sub prepareCableTypesBox(ByVal cond As String)
     Application.ScreenUpdating = False
     gblnSkipEvents = True
 
-    'isjungiam ir isvalom kitus pasirinkimo laukelius
     With Menu_Form
+        'lets clear additional comboboxes when main combobox changes
         .comboBoxCableTypes.Clear
         .comboBoxCableCores.Clear
         .comboBoxCableCross.Clear
@@ -35,12 +35,12 @@ Public Sub prepareCableTypesBox(ByVal cond As String)
         .comboBoxCableCores.Enabled = False
         .comboBoxCableCross.Enabled = False
     
-        'surasom tipus y komboboxa
         Dim i As Long
         Dim arrSize As Long
         
         arrSize = UBound(gstrArrCables)
         
+        'fill combobox with items
         For i = 1 To arrSize
             If gstrArrCables(i, CellCable.Material) = cond Then
                 .comboBoxCableTypes = gstrArrCables(i, CellCable.Cable)
@@ -52,7 +52,6 @@ Public Sub prepareCableTypesBox(ByVal cond As String)
             End If
         Next i
         
-        'yjungiam combobox
         .comboBoxCableTypes = ""
         .comboBoxCableTypes.Enabled = True
     
@@ -78,14 +77,12 @@ Public Sub prepareCableCoresBox()
     gblnSkipEvents = True
     Application.ScreenUpdating = False
     
-    'isvalom gyslu ir skerspjuviu bosus
     With Menu_Form
         .comboBoxCableCores.Clear
         .comboBoxCableCross.Clear
         
         .comboBoxCableCross.Enabled = False
         
-        'surasom kabelio gyslu skaiciu y komboboxa
         Dim i As Long
         Dim arrSize As Long
         Dim conductor As String
@@ -135,11 +132,9 @@ Public Sub prepareCableCrossBox()
     
     Application.ScreenUpdating = False
     
-    'isvalom skerspjuviu comboboxa
     With Menu_Form
         .comboBoxCableCross.Clear
         
-        'surasom kabelio gyslu skaiciu y komboboxa
         Dim i As Long
         Dim arrSize As Long
         Dim conductor As String
@@ -184,7 +179,7 @@ End Sub
 '* Return: -
 '******************************************************************************
 Public Sub prepareCableListBox()
-    'patikrinam ar pasirinktos reiksmes teisingos
+    'user input validation
     With Menu_Form
         If Not .comboBoxCableTypes.MatchFound Then
             MsgBox "Neteisingas kabelio tipas"
@@ -200,7 +195,6 @@ Public Sub prepareCableListBox()
             Exit Sub
         End If
         
-        'Surenkam surasyta informacija apie kabely
         Dim cableType As String
         Dim cableCores As String
         Dim cableCross As String
@@ -219,7 +213,6 @@ Public Sub prepareCableListBox()
         Dim arrElements As Long
         arrElements = UBound(gstrArrCables)
         
-        'ieskom pasirinkto kabelio masyve
         Dim i As Long
         Dim cableFound As Boolean
         cableFound = False
@@ -228,7 +221,6 @@ Public Sub prepareCableListBox()
                 And cableCores = gstrArrCables(i, CellCable.Cores) _
                 And cableCross = gstrArrCables(i, CellCable.Cross) Then
             
-                'kabelis rastas, ytraukiam nauja elementa y kabeliu sarasa
                 .listBoxCables.AddItem
                 .listBoxCables.List(glngListBoxItems, 0) = _
                     "Kabelis " & cableType & " " & cableCores & "x" & cableCross
@@ -264,7 +256,6 @@ Public Sub prepareResultArray()
     With Menu_Form
         listItems = .listBoxCables.ListCount
         
-        'patikrinam ar yra ko ieskoti
         If listItems < 1 Then Exit Sub
         
         Dim i As Long
@@ -279,15 +270,13 @@ Public Sub prepareResultArray()
         
         Dim arrayResult() As String
         ReDim arrayResult(1 To listItems, 1 To maxGlands, 1 To 5)
-        'ieskom tinkamo sandariklio kabeliui
+        'begin search for suitable glands for cable
         For i = 0 To listItems - 1
         
             curGlands = 0
             
-            'issisaugom diametra
             cableDiam = CDbl(.listBoxCables.List(i, 1))
         
-            'paieskom sandarikliu masyve tinkamo
             For j = 1 To UBound(gstrArrGlands)
                 
                 If gstrArrGlands(j, CellGland.MinDiameter) = vbNullString _
@@ -304,8 +293,7 @@ Public Sub prepareResultArray()
                 If cableDiam < cableMaxD And cableDiam > cableMinD Then
                     curGlands = curGlands + 1
                     
-                    'jei tinkantys sandarikliai nebetelpa y masyva, padidinam
-                    'jy
+                    'expand array if necessary
                     If curGlands > maxGlands Then
                         maxGlands = maxGlands + 1
                         
@@ -313,7 +301,7 @@ Public Sub prepareResultArray()
                             1 To maxGlands, 1 To 5)
                     End If
                     
-                    'issaugojam sandarikly y masyva
+                    'insert found gland to the array
                     arrayResult(i + 1, curGlands, CellResult.CableDescription) = _
                         .listBoxCables.List(i, 0) & ", " & cableDiam & "mm"
                     arrayResult(i + 1, curGlands, CellResult.GlandDescription) = _
@@ -329,8 +317,6 @@ Public Sub prepareResultArray()
                 End If
             Next j
         
-            'jei neradom ytraukiam y masyva ir prirasom, kad reikiamas
-            'sandariklis nerastas.c
             If curGlands < 1 Then
                 arrayResult(i + 1, 1, CellResult.CableDescription) = _
                     .listBoxCables.List(i, 0) & ", " & cableDiam & "mm"
@@ -340,7 +326,6 @@ Public Sub prepareResultArray()
         Next i
     End With
     
-    'surasom viska y nauja faila
     showGlandsResult arrayResult
     
 End Sub
