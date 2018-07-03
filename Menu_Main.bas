@@ -34,7 +34,7 @@ End Enum
 
 Public Enum CellGland
     Gland = 1       'gland type
-    TypeName
+    GlandName
     Code
     Manufacturer
     MinDiameter
@@ -55,6 +55,13 @@ Public gstrArrGlands() As String
 
 'variable for setting list box item values
 Public glngListBoxItems As Long
+
+'global variables for combine function
+Public gstrWorkbookName As String
+Public gstrWorksheetName As String
+Public gstrCombineRange As String
+Public glngCombineCodeColumn As Long     'range column index, not sheet column!
+Public glngCombineValueColumn As Long     'range column index, not sheet column!
 
 'Application.EnableEvents = false does not work with userforms!!!
 'Variable for custom events blocking
@@ -170,8 +177,8 @@ Private Sub prepareGlandsArray(ByVal shtSheet As Object, ByVal lngRows As Long)
             
             gstrArrGlands(i - 1, CellGland.Gland) = _
                 .Cells(i, CellGland.Gland)
-            gstrArrGlands(i - 1, CellGland.TypeName) = _
-                .Cells(i, CellGland.TypeName)
+            gstrArrGlands(i - 1, CellGland.GlandName) = _
+                .Cells(i, CellGland.GlandName)
             gstrArrGlands(i - 1, CellGland.Code) = _
                 .Cells(i, CellGland.Code)
             gstrArrGlands(i - 1, CellGland.Manufacturer) = _

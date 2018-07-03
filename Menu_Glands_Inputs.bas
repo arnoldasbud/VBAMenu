@@ -305,7 +305,7 @@ Public Sub prepareResultArray()
                     strArrResult(i + 1, lngGlands, CellResult.CableDescription) = _
                         .listBoxCables.List(i, 0) & ", " & dblDiam & "mm"
                     strArrResult(i + 1, lngGlands, CellResult.GlandDescription) = _
-                        gstrArrGlands(j, CellGland.TypeName) & " (" & _
+                        gstrArrGlands(j, CellGland.GlandName) & " (" & _
                         dblMinD & "mm-" & dblMaxD & "mm)"
                     strArrResult(i + 1, lngGlands, CellResult.Manufacturer) = _
                         gstrArrGlands(j, CellGland.Manufacturer)

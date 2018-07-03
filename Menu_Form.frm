@@ -105,3 +105,34 @@ End Sub
 Private Sub buttonSearchGlands_Click()
     prepareResultArray
 End Sub
+
+'**************************************************************************************************
+'* Event that fires up when user clicks 'Range' button
+'*
+'* Params: -
+'* Return: -
+'**************************************************************************************************
+Private Sub buttonCombineRange_Click()
+    addSelectedRange
+End Sub
+
+'**************************************************************************************************
+'* Event that fires up when user clicks 'Code' button
+'*
+'* Params: -
+'* Return: -
+'**************************************************************************************************
+Private Sub buttonCombineCode_Click()
+    addSelectedCodeColumn
+End Sub
+
+'**************************************************************************************************
+'* Event that fires up when user clicks 'Value' button
+'*
+'* Params: -
+'* Return: -
+'**************************************************************************************************
+Private Sub buttonCombineValue_Click()
+    addSelectedValueColumn
+End Sub
+

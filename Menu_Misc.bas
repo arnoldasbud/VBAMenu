@@ -82,3 +82,25 @@ Public Sub exportModules()
     Next objMod
     
 End Sub
+
+'******************************************************************************
+'* Function which converts column number to char
+'*
+'* Params:
+'*      lngColumn - column id as long
+'* Return:
+'*      Given column letter as string
+'******************************************************************************
+Public Function getColumnLetter(ByVal lngColumn As Long) As String
+
+    Dim strArr() As String    'to store result from split function
+    
+    'if we use 'true' as .Address param, then '$' symbol will be not displayed
+    'in cell address. We need '$' symbol before row number, so we can split
+    'string in to parts. One will contain column letter, other row number.
+    strArr() = Split(ActiveSheet.Cells(1, lngColumn).Address(True, False), "$")
+    
+    'column letter will allways be firs element in array
+    getColumnLetter = strArr(0)
+
+End Function
