@@ -163,7 +163,10 @@ End Sub
 '*
 '* Return: -
 '******************************************************************************
-Public Sub prepareCombineResultArray()
+Public Sub prepareCombineResultSheet()
+
+    'create new workbook to copy range to
+    
 
 End Sub
 

@@ -143,6 +143,6 @@ End Sub
 '* Return: -
 '**************************************************************************************************
 Private Sub buttonCombineSelectedRange_Click()
-    prepareCombineResultArray
+    prepareCombineResultSheet
 End Sub
 

@@ -104,8 +104,3 @@ Public Function getColumnLetter(ByVal lngColumn As Long) As String
     getColumnLetter = strArr(0)
 
 End Function
-    
-Public Sub testcollection()
-
-    
-End Sub
