@@ -136,3 +136,13 @@ Private Sub buttonCombineValue_Click()
     addSelectedValueColumn
 End Sub
 
+'**************************************************************************************************
+'* Event that fires up when user clicks 'Combine selected' button
+'*
+'* Params: -
+'* Return: -
+'**************************************************************************************************
+Private Sub buttonCombineSelectedRange_Click()
+    prepareCombineResultArray
+End Sub
+

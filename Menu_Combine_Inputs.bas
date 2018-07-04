@@ -90,7 +90,9 @@ Public Sub addSelectedCodeColumn()
         strLetter = getColumnLetter(.Column)
         
         'range must intersect with selected column
-        If Application.Intersect(Range(gstrCombineRange), Range(strLetter & ":" & strLetter)) Is Nothing Then
+        If Application.Intersect(Range(gstrCombineRange), _
+            Range(strLetter & ":" & strLetter)) Is Nothing Then
+            
             MsgBox "Pasirinktas stulpelis nepapuola y pasirinkta srity"
             Exit Sub
         End If
@@ -134,7 +136,9 @@ Public Sub addSelectedValueColumn()
         strLetter = getColumnLetter(.Column)
         
         'range must intersect with selected column
-        If Application.Intersect(Range(gstrCombineRange), Range(strLetter & ":" & strLetter)) Is Nothing Then
+        If Application.Intersect(Range(gstrCombineRange), _
+            Range(strLetter & ":" & strLetter)) Is Nothing Then
+            
             MsgBox "Pasirinktas stulpelis nepapuola y pasirinkta srity"
             Exit Sub
         End If
@@ -152,4 +156,14 @@ Public Sub addSelectedValueColumn()
 
 End Sub
 
+'******************************************************************************
+'* Procedure which stores selected range to array
+'*
+'* Params: -
+'*
+'* Return: -
+'******************************************************************************
+Public Sub prepareCombineResultArray()
+
+End Sub
 
