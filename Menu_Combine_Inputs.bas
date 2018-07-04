@@ -155,18 +155,3 @@ Public Sub addSelectedValueColumn()
     End With
 
 End Sub
-
-'******************************************************************************
-'* Procedure which stores selected range to array
-'*
-'* Params: -
-'*
-'* Return: -
-'******************************************************************************
-Public Sub prepareCombineResultSheet()
-
-    'create new workbook to copy range to
-    
-
-End Sub
-
